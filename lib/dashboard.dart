@@ -31,14 +31,13 @@ class _DashboardState extends State<Dashboard>
   List<Widget> tabs = [
     const Sendall(),
     const Sendall(),
-    const Sendall(),
   ];
 
   @override
   void initState() {
     super.initState();
     getdarkmodepreviousstate();
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -132,8 +131,7 @@ class _DashboardState extends State<Dashboard>
                                   labelColor: notifire.getdarkscolor,
                                   unselectedLabelColor: Colors.grey,
                                   tabs: const [
-                                    Tab(text: 'All'),
-                                    Tab(text: 'Archived'),
+                                    Tab(text: 'Users'),
                                     Tab(text: 'Groups'),
                                   ],
                                 ),

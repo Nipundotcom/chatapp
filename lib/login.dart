@@ -271,10 +271,7 @@ class _LoginState extends State<Login> {
                     height: height / 10,
                   ),
                   Center(
-                    child: Image.asset(
-                      "images/logos.png",
-                      height: height / 7,
-                    ),
+                    child: Icon(Icons.message, size: 80, color: notifire.getdarkscolor),
                   ),
                 ],
               ),

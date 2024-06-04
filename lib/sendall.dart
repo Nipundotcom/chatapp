@@ -1,3 +1,4 @@
+import 'package:chatapp/chat.dart';
 import 'package:flutter/material.dart';
 import '../../utils/media.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +45,15 @@ class _SendallState extends State<Sendall> {
     "images/man5.png",
   ];
 
+  handleClick(String value) {
+    switch (value) {
+      case 'Delete':
+        break;
+      case 'Block':
+        break;
+    }
+  }
+
   bool selectedindex = false;
   bool selectedindex1 = false;
   bool selectedindex2 = false;
@@ -72,7 +82,14 @@ class _SendallState extends State<Sendall> {
                 itemBuilder: (context, index) => Column(
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Chat(),
+                          ),
+                        );
+                      },
                       child: Container(
                         color: Colors.transparent,
                         child: Row(
@@ -113,12 +130,17 @@ class _SendallState extends State<Sendall> {
                               ],
                             ),
                             const Spacer(),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Icon(
-                                Icons.more_vert_rounded,
-                                color: notifire.getdarkscolor,
-                              ),
+                            PopupMenuButton<String>(
+                              color: notifire.getdarkscolor,
+                              onSelected: handleClick,
+                              itemBuilder: (BuildContext context) {
+                                return {'Delete', 'Block'}.map((String choice) {
+                                  return PopupMenuItem<String>(
+                                    value: choice,
+                                    child: Text(choice),
+                                  );
+                                }).toList();
+                              },
                             ),
                             SizedBox(
                               width: width / 20,

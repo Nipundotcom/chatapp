@@ -50,31 +50,21 @@ class _SplashscreenState extends State<Splashscreen> {
       backgroundColor: notifire.getprimerycolor,
       body: Column(
         children: [
-          Stack(
-            children: [
-              Container(
-                color: Colors.transparent,
-                height: height,
-                width: width,
-                child: Image.asset(
-                  "images/splash.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: height / 2.4,
-                  ),
-                  Center(
-                    child: Image.asset(
-                      "images/logos.png",
-                      height: height / 7,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          SizedBox(
+            height: height / 2.4,
+          ),
+          Center(
+            child: Icon(Icons.message, size: 80, color: notifire.getdarkscolor),
+          ),
+          SizedBox(
+            height: height / 40,
+          ),
+          Text(
+            "Let's Have A Chat",
+            style: TextStyle(
+                color: notifire.getdarkscolor,
+                fontFamily: 'Gilroy Bold',
+                fontSize: height / 35),
           ),
         ],
       ),
