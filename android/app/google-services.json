@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "332003769970",
+    "project_id": "chatapp-ecda3",
+    "storage_bucket": "chatapp-ecda3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332003769970:android:9b304f71ff0bf321b20ceb",
+        "android_client_info": {
+          "package_name": "com.example.chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYYVjLdGeQIndcS2qmLrapFsc-ImOebFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

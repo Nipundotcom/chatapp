@@ -1,3 +1,4 @@
+import 'package:chatapp/utils/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
@@ -345,9 +346,7 @@ class _ProfileState extends State<Profile> {
                   height: height / 20,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                  onTap: () {},
                   child: Container(
                     height: height / 18,
                     width: width / 2.5,
@@ -372,7 +371,10 @@ class _ProfileState extends State<Profile> {
                   height: height / 100,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    final authService = AuthService();
+                    authService.signOut();
+                  },
                   child: Container(
                     height: height / 18,
                     width: width / 2.5,

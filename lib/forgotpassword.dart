@@ -22,6 +22,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     getdarkmodepreviousstate();
   }
 
+  final TextEditingController e = TextEditingController();
+
   getdarkmodepreviousstate() async {
     final prefs = await SharedPreferences.getInstance();
     bool? previusstate = prefs.getBool("setIsDark");
@@ -150,6 +152,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     notifire.getbluecolor,
                     "images/email.png",
                     'Enter Email',
+                    controller: e,
                     notifire.getdarkwhitecolor),
                 SizedBox(
                   height: height / 2.5,

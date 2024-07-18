@@ -25,20 +25,29 @@ class _SplashscreenState extends State<Splashscreen> {
       notifire.setIsDark = previusstate;
     }
   }
-
+  
+  late Timer _timer;
+  
   @override
   void initState() {
     super.initState();
     getdarkmodepreviousstate();
-    Timer(
+    _timer = Timer(
       const Duration(seconds: 3),
-      () => Navigator.pushReplacement(
+      () => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const Login(),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Cancel the Timer in the dispose method
+    _timer.cancel();
+    super.dispose();
   }
 
   @override

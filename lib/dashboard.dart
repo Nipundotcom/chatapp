@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/colornotifire.dart';
-import '../../utils/media.dart';
+// import '../../utils/media.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -43,6 +43,8 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) {
     notifire = Provider.of<ColorNotifire>(context, listen: true);
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: notifire.getprimerycolor,
       body: SingleChildScrollView(
@@ -158,6 +160,8 @@ class _DashboardState extends State<Dashboard>
   }
 
   Widget serarchtextField(textclr, hinttext) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width / 18),
       child: Container(

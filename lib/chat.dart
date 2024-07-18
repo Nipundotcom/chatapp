@@ -1,11 +1,18 @@
+import 'package:chatapp/services/chatService.dart';
+import 'package:chatapp/utils/auth_service.dart';
 import 'package:chatapp/utils/colornotifire.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chatapp/utils/media.dart';
 
 class Chat extends StatefulWidget {
-  const Chat({Key? key}) : super(key: key);
+  final String receiverEmail;
+  final String receiverID;
+  const Chat({Key? key, required this.receiverEmail, required this.receiverID})
+      : super(key: key);
 
   @override
   _ChatState createState() => _ChatState();
@@ -21,6 +28,17 @@ class _ChatState extends State<Chat> {
       notifire.setIsDark = false;
     } else {
       notifire.setIsDark = previusstate;
+    }
+  }
+
+  final TextEditingController _messageController = TextEditingController();
+  final chatService = ChatService();
+  final authService = AuthService();
+
+  void sendMessage() async {
+    if (_messageController.text.isNotEmpty) {
+      await chatService.sendMessage(widget.receiverID, _messageController.text);
+      _messageController.clear();
     }
   }
 
@@ -40,7 +58,7 @@ class _ChatState extends State<Chat> {
         elevation: 0,
         backgroundColor: notifire.getpurplcolor,
         title: Text(
-          'userName',
+          widget.receiverEmail,
           style: TextStyle(
               color: notifire.getdarkscolor,
               fontFamily: 'Gilroy Bold',
@@ -62,10 +80,11 @@ class _ChatState extends State<Chat> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Spacer(),
+            Expanded(child: _buildMessageList()),
             Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: TextField(
+                controller: _messageController,
                 autofocus: false,
                 style: TextStyle(
                   fontSize: height / 50,
@@ -75,12 +94,8 @@ class _ChatState extends State<Chat> {
                   filled: true,
                   fillColor: notifire.gettabwhitecolor,
                   hintText: 'Enter Message...',
-                  suffixIcon: Icon(
-                    Icons.send,
-                    color: notifire.getdarkscolor,
-                  ),
-                  hintStyle:
-                      TextStyle(color: Colors.grey, fontSize: height / 40),
+                  suffixIcon:IconButton(onPressed: sendMessage, icon: Icon(Icons.send,color: notifire.getdarkscolor,)),
+                  hintStyle:TextStyle(color: Colors.grey, fontSize: height / 40),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: notifire.getpurplcolor),
                     borderRadius: BorderRadius.circular(10),
@@ -94,6 +109,45 @@ class _ChatState extends State<Chat> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildMessageList(){
+    String senderID = authService.getCurrentUser()!.uid;
+    return StreamBuilder(
+      stream: chatService.getMessages(widget.receiverID, senderID), 
+      builder: (context, snapshot){
+        if (snapshot.hasError) {
+            return const Text("Error Getting UserList");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
+          );
+      });
+  }
+
+  Widget _buildMessageItem(DocumentSnapshot doc){
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    bool isCurrentUser = data["senderID"] == authService.getCurrentUser()!.uid;
+    return Container(
+      decoration: BoxDecoration(
+        color: notifire.getdarkgreycolor,
+        borderRadius: BorderRadius.circular(12)
+      ),
+      alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+      padding: EdgeInsets.all(10),
+      margin:  EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      child: Column(
+        crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: [
+          Text(data["message"], style: TextStyle(
+            color: notifire.getdarkscolor,
+          ),),
+        ],
       ),
     );
   }
